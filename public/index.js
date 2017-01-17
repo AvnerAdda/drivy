@@ -1,7 +1,5 @@
 'use strict';
 
-//EXERCICE 1 - Euro-Kilometers
-
 function getRental(id)
 {
 	for ( var i = 0 ; i < rentals.length ; i++)
@@ -40,7 +38,6 @@ function rtl_distance(distance, price){
 	return rtldistancer;
 }
 
-//Exercice 1 : Euro-Kilometers
 function new_rtl_Price()
 {
 	for(var i=0; i<rentals.length;i++)
@@ -102,39 +99,32 @@ var rtlCommission = function rtlCommission(price,days)
  	console.log(rentals);
 }
 
-
 //Exercice 2 - Drive more, pay less
 
 function dsct_rentalPrice()
 {
 		
 	for(var i=0; i<rentals.length;i++){ 
-	
 		var time_day = getDate(rentals[i].id);		
 		var rental_dsct;
-	
 		if(time_day==1)
-	{
+		{
 			rental_dsct = rentals[i].price;
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price (no discount) : '  + rental_dsct  + ' euros');
 		}
-	
 		else if(time_day>1 && time_day<=4) 
 		{ 
 			rental_dsct = rentals[i].price*0.90; 
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount (-10%) : ' + rental_dsct + ' euros'); 
 			rentals[i].price= rental_dsct;
 		} 
-	
 		else if(time_day>4 && time_day<=10) {
 	
 			rental_dsct =rentals[i].price*0.70; 
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount (-30%) : ' + rental_dsct + ' euros');
 			rentals[i].price= rental_dsct;
 		}
-			
-		else if(time_day>10) { 
-	
+		else if(time_day>10) {
 			rental_dsct = rentals[i].price*0.50; 
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount(-50%) : ' + rental_dsct + ' euros');
 			rentals[i].price= rental_dsct;
@@ -185,15 +175,80 @@ function opt_deduct()
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + '\nRental price (deduit option) : ' + rtl_price_deduitopt);
 			rentals[i].price=rtl_price_deduitopt;
 		}
-	
 		else
 		{
 			rtl_price_deduitopt=rentals[i].price;
 			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + '\nRental price (without deduit option) : ' + rtl_price_deduitopt);
 		}
-	
 	}
+}
 
+//Exercise 5 - Pay the actors
+
+function payactors()
+{
+	for ( var i = 0 ; i < actors.length ; i++)
+	{
+	var p = 0;
+	var comm = 0;
+	var insur = 0;
+	var assist = 0 ;
+	var deductReduct = true ; 
+	var day = getDate(actors[i].rentalId);
+	
+		for ( var j = 0 ; j < rentals.length ; j++)
+		{
+			if ( actors[i].rentalId == rentals[j].id ) 
+			{
+				p = rentals[j].price;
+				var comm = rentals[j].price * 0.70;
+				var insur = comm / 2;
+				var roadAssist = day * 1;
+				var drivy = comm - insur - roadAssist;	
+			
+				for ( var k = 0 ; k < actors[i].payment.length; k++)
+				{
+					switch(actors[i].payment[k].who)
+					{
+						case 'driver' : 
+						actors[i].payment[k].amount=p;
+						console.log(actors[i].payment[k].type + ' Driver Amount : ' + actors[i].payment[k].amount);
+						break;
+				
+						case 'owner' :
+						actors[i].payment[k].amount=p-comm;
+						console.log(actors[i].payment[k].type +' Owner Amount : ' + actors[i].payment[k].amount);
+						break;
+				
+						case 'insurance' :
+						actors[i].payment[k].amount=insur;
+						console.log(actors[i].payment[k].type +' Insurance Amount : ' + actors[i].payment[k].amount);
+						break;
+				
+						case 'assistance' :
+						actors[i].payment[k].amount=roadAssist;
+						console.log(actors[i].payment[k].type +' Assistance Amount : ' + actors[i].payment[k].amount);
+						break;
+				
+						case 'drivy' :
+						if(rentals[i].options.deductibleReduction==true)
+						{
+							var deduct=4*day;
+							actors[i].payment[k].amount=drivy + deduct;
+							console.log(actors[i].payment[k].type +' Drivy Amount : ' + actors[i].payment[k].amount);
+ 							break;
+ 						}
+ 	 					else {
+ 							var deduct=0;
+ 							actors[i].payment[k].amount=drivy + deduct;
+ 							console.log(actors[i].payment[k].lastName + ' ' + actors[i].firstName +'Drivy Amount : ' + actors[i].payment[k].amount);
+ 						break;
+ 						}
+ 					}			
+ 				}			
+ 			}
+ 		}
+ 	}
 }
 
 //list of cars
@@ -387,4 +442,7 @@ comm();
 console.timeEnd()
 console.group('EXERCICE 4 - The famous deductible')
 opt_deduct();
+console.timeEnd()
+console.group('EXERCICE 5 - Pay the actors')
+payactors();
 console.timeEnd()
