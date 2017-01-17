@@ -102,6 +102,47 @@ var rtlCommission = function rtlCommission(price,days)
  	console.log(rentals);
 }
 
+
+//Exercice 2 - Drive more, pay less
+
+function dsct_rentalPrice()
+{
+		
+	for(var i=0; i<rentals.length;i++){ 
+	
+		var time_day = getDate(rentals[i].id);		
+		var rental_dsct;
+	
+		if(time_day==1)
+	{
+			rental_dsct = rentals[i].price;
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price (no discount) : '  + rental_dsct  + ' euros');
+		}
+	
+		else if(time_day>1 && time_day<=4) 
+		{ 
+			rental_dsct = rentals[i].price*0.90; 
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount (-10%) : ' + rental_dsct + ' euros'); 
+			rentals[i].price= rental_dsct;
+		} 
+	
+		else if(time_day>4 && time_day<=10) {
+	
+			rental_dsct =rentals[i].price*0.70; 
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount (-30%) : ' + rental_dsct + ' euros');
+			rentals[i].price= rental_dsct;
+		}
+			
+		else if(time_day>10) { 
+	
+			rental_dsct = rentals[i].price*0.50; 
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' + '\nRental Price Discount(-50%) : ' + rental_dsct + ' euros');
+			rentals[i].price= rental_dsct;
+		} 
+	
+	}
+}
+
 //list of cars
 //useful for ALL exercises
 var cars = [{
@@ -282,4 +323,7 @@ for(var i=0; i<rentals.length;i++)
 	 '\nRental Price : ' + rtl_time(getDate(rentals[i].id),cars[i].pricePerDay) + ' + ' + rtl_distance(rentals[i].distance, cars[i].pricePerKm) + ' = '+ rentals[i].price + ' ' + 'euros');
 }
 console.log('Price have change !')
+console.timeEnd()
+console.group('EXERCICE 2 - Drive more, pay less')
+dsct_rentalPrice();
 console.timeEnd()
