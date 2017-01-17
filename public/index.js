@@ -38,6 +38,7 @@ function rtl_distance(distance, price){
 	return rtldistancer;
 }
 
+//Exercice 1 : Euro-Kilometers 
 function new_rtl_Price()
 {
 	for(var i=0; i<rentals.length;i++)
@@ -84,12 +85,6 @@ function PricePerConductor(rentals)
 	}
 }
 */
-
-
-function discount(day)
-{
-
-}
 
 var rtlCommission = function rtlCommission(price,days)
 {
@@ -249,6 +244,53 @@ function payactors()
  			}
  		}
  	}
+}
+
+//Exercise 6 - Rental modification
+ 
+function updat_modif()
+{	
+ 	for(var i=0; i<rentalModifications.length; i++)
+ 	{
+ 		
+ 		for(var j=0; j<rentals.length; j++)
+ 		{		
+ 			if(rentalModifications[i].rentalId == rentals[j].id)
+ 			{	
+ 				if( typeof rentalModifications[i].returnDate != "undefined")
+ 				{
+ 				rentals[j].returnDate = rentalModifications[i].returnDate;
+ 				}
+ 				if(typeof rentalModifications[i].pickupDate != "undefined")
+ 				{
+ 				rentals[j].pickupDate = rentalModifications[i].pickupDate;
+ 				}
+ 				if(typeof rentalModifications[i].distance != "undefined")
+ 				{
+ 				rentals[j].distance = rentalModifications[i].distance;
+ 				}
+ 				if(typeof rentalModifications[i].options!="undefined")
+ 				{
+ 				rentals[j].options.deductibleReduction=rentalModifications[i].options.deductibleReduction;
+ 				}
+ 				if(typeof rentalModifications[i].carId!="undefined")
+ 				{
+ 				rentals[j].carId=rentalModifications[i].carId;
+ 				}
+ 			}
+ 		}
+	}
+}
+
+
+ 
+function apply_modif()
+{
+ 	console.log('Modifications');
+	new_rtl_Price();
+	dsct_rentalPrice();
+	opt_deduct();
+	payactors();
 }
 
 //list of cars
@@ -446,3 +488,7 @@ console.timeEnd()
 console.group('EXERCICE 5 - Pay the actors')
 payactors();
 console.timeEnd()
+console.group('EXERCICE 6 - Rental modification')
+payactors();
+console.timeEnd()
+console.log("FINISH!")
