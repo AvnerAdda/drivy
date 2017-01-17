@@ -143,6 +143,32 @@ function dsct_rentalPrice()
 	}
 }
 
+//Exercice 3 - Give me all your money
+
+function comm()
+{
+	for(var i=0; i<rentals.length;i++)
+	{
+		var time_day = getDate(rentals[i].id);	
+	
+		var comm = rentals[i].price * 0.70;
+		console.log('Commission: ' + rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' course is ' + comm + '.');
+	
+		var insur = comm / 2;
+		console.log('Insurrance: ' + rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' course is ' + comm + '.');
+		rentals[i].commission.insurance = insur;
+	
+		var roadAssist = time_day * 1;
+		console.log('Road assistance: ' + rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' course is ' + roadAssist + '.');
+		rentals[i].commission.assistance = roadAssist;
+	
+		var total =comm - insur - roadAssist;
+		console.log('Drivy: ' + rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' course is ' + total + '.');
+		rentals[i].commission.drivy = total;
+	}
+		
+}
+
 //list of cars
 //useful for ALL exercises
 var cars = [{
@@ -324,6 +350,11 @@ for(var i=0; i<rentals.length;i++)
 }
 console.log('Price have change !')
 console.timeEnd()
+
 console.group('EXERCICE 2 - Drive more, pay less')
 dsct_rentalPrice();
+console.log('Rental Price have change !')
+console.timeEnd()
+console.group('EXERCICE 3 - Give me all your money')
+comm();
 console.timeEnd()
