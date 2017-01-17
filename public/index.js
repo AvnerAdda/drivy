@@ -169,6 +169,33 @@ function comm()
 		
 }
 
+// Exercice 4 - The famous deductible
+
+function opt_deduct()
+{
+	for(var i=0; i<rentals.length;i++)
+	{
+		var time_day = getDate(rentals[i].id);			
+		var optDeduct=4*time_day;
+		var rtl_price_deduitopt;
+	
+		if(rentals[i].options.deductibleReduction==true)
+		{
+			rtl_price_deduitopt = rentals[i].price + optDeduct;
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + '\nRental price (deduit option) : ' + rtl_price_deduitopt);
+			rentals[i].price=rtl_price_deduitopt;
+		}
+	
+		else
+		{
+			rtl_price_deduitopt=rentals[i].price;
+			console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + '\nRental price (without deduit option) : ' + rtl_price_deduitopt);
+		}
+	
+	}
+
+}
+
 //list of cars
 //useful for ALL exercises
 var cars = [{
@@ -357,4 +384,7 @@ console.log('Rental Price have change !')
 console.timeEnd()
 console.group('EXERCICE 3 - Give me all your money')
 comm();
+console.timeEnd()
+console.group('EXERCICE 4 - The famous deductible')
+opt_deduct();
 console.timeEnd()
