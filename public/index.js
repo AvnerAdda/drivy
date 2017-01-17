@@ -1,5 +1,107 @@
 'use strict';
 
+//EXERCICE 1 - Euro-Kilometers
+
+function getRental(id)
+{
+	for ( var i = 0 ; i < rentals.length ; i++)
+	{
+		if ( id == rentals[i].id)
+		{
+			return rentals[i];
+		}
+	}
+	return ;
+}
+
+function getDate(id)
+{
+	// retal date 
+	var rtl = getRental(id);
+	var returnDate = new Date (rtl.returnDate);
+	var pickupDate = new Date(rtl.pickupDate);
+	//convert into millisecond
+	var time = 1+ (returnDate - pickupDate )/(24*3600*1000) ;
+	return time ; 
+}
+
+function rtl_time(time,price)
+{
+	//rental time = time x price
+	var rtltimer=time * price;
+	//console.log('Rental time ' + rentaltimer);
+	return rtltimer;
+}
+
+function rtl_distance(distance, price){
+	//rental distance = distance x price  
+	var rtldistancer=distance*price;
+	//console.log('Rental distance ' + rentaldistancer);
+	return rtldistancer;
+}
+
+//Exercice 1 : Euro-Kilometers
+function new_rtl_Price()
+{
+	for(var i=0; i<rentals.length;i++)
+	{
+			
+		if(rentals[i].carId==cars[i].id)	
+		{	
+			var time = getDate(rentals[i].id);		
+		
+			var nrtl_time = rtl_time(time,cars[i].pricePerDay);
+			var nrtl_distance=rtl_distance(rentals[i].distance, cars[i].pricePerKm);
+			
+			//rental price = time + distance
+			var rtl_price=nrtl_time + nrtl_distance;
+			//Value change
+			rentals[i].price= rtl_price;
+		}
+	}
+}
+
+/*
+function PricePerConductor(rentals)
+{
+	var j = 0
+	while(j<rentals.length)
+	{
+		console.log(j);
+		var conducerFirstName = rentals[j].driver.firstName;
+		console.log(conducerFirstName);
+		var beginDate = convertDate(rentals[j].pickupDate);
+		console.log(beginDate);
+		var returnDate = convertDate(rentals[j].returnDate);
+		console.log(returnDate);
+		var numberOfDay = getDays(beginDate,returnDate);
+		console.log(numberOfDay);
+		var carId = rentals[j].carId;
+		console.log(carId);
+		var priceD = pricePerDay(carId);
+		console.log(priceD);
+		var priceK = pricePerKm(carId);
+		console.log(priceK);
+		var distance = rentals[j].distance;
+		console.log(distance);
+	}
+}
+*/
+
+
+function discount(day)
+{
+
+}
+
+var rtlCommission = function rtlCommission(price,days)
+{
+ 	//console.log(cars)
+ 	console.log(rentals);
+ 	PricePerConductor(rentals);
+ 	console.log(rentals);
+}
+
 //list of cars
 //useful for ALL exercises
 var cars = [{
@@ -17,8 +119,7 @@ var cars = [{
   'pricePerKm': 0.45
 }];
 
-//list of rentals
-//useful for ALL exercises
+//list of rentals useful for ALL exercises
 //The `price` is updated from exercice 1
 //The `commission` is updated from exercice 3
 //The `options` is useful from exercice 4
@@ -43,7 +144,8 @@ var rentals = [{
   }
 }, {
   'id': '2-rs-92',
-  'driver': {
+  'driver': 
+  {
     'firstName': 'Rebecca',
     'lastName': 'Solanas'
   },
@@ -63,7 +165,7 @@ var rentals = [{
 }, {
   'id': '3-sa-92',
   'driver': {
-    'firstName': ' Sami',
+    'firstName': 'Sami',
     'lastName': 'Ameziane'
   },
   'carId': 'p-boxster',
@@ -165,7 +267,19 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-console.log(cars);
+console.time()
+//console.log(cars);
 console.log(rentals);
-console.log(actors);
+//console.log(actors);
 console.log(rentalModifications);
+console.group('EXERCICE 1 - Euro-Kilometers')
+new_rtl_Price()
+for(var i=0; i<rentals.length;i++)
+{
+	console.log(rentals[i].driver.firstName + ' ' + rentals[i].driver.lastName + ' ' +
+	 '\nCar: ' + rentals[i].carId +
+	 '\nDistance: '+rentals[i].distance+
+	 '\nRental Price : ' + rtl_time(getDate(rentals[i].id),cars[i].pricePerDay) + ' + ' + rtl_distance(rentals[i].distance, cars[i].pricePerKm) + ' = '+ rentals[i].price + ' ' + 'euros');
+}
+console.log('Price have change !')
+console.timeEnd()
